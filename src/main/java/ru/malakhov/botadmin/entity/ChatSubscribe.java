@@ -46,7 +46,7 @@ public class ChatSubscribe {
     @EqualsAndHashCode
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class SubscribeKey implements Serializable {
+    public static class SubscribeKey implements Serializable {
         @Column(name = "tg_user")
         private Long tgUser;
         @Column(name = "tg_chat")

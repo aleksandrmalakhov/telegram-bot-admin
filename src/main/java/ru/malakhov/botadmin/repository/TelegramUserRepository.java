@@ -8,10 +8,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.malakhov.botadmin.entity.TelegramUser;
 
+import java.util.Optional;
+
 @Repository
 public interface TelegramUserRepository extends CrudRepository<TelegramUser, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE tg_user AS u SET u.msgNumber = u.msgNumber + 1 WHERE u.id IS NOT NULL AND u.id = :id")
     void updateMsgNumberByUserId(@Param("id") Long id);
+
+    Optional<TelegramUser> findByUserName(String userName);
 }
