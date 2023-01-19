@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  botadmin-bot:
+    depends_on:
+      - botadmin-db
+    build:
+      context: .
+    environment:
+      BOT_NAME: ${BOT_NAME}
+      BOT_TOKEN: ${BOT_TOKEN}
+      BOT_DB_USERNAME: ${BOT_DB_USERNAME}
+      BOT_DB_PASSWORD: ${BOT_DB_PASSWORD}
+    restart: always
+  botadmin-db:
+    image: postgres:14.5
+    restart: always
+    environment:
+      POSTGRES_USER: ${BOT_DB_USERNAME}
+      POSTGRES_PASSWORD: ${BOT_DB_PASSWORD}
+      POSTGRES_DB: 'botadmin'
+      POSTGRES_ROOT_PASSWORD: 'root'
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
