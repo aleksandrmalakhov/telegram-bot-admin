@@ -7,12 +7,8 @@ import java.util.List;
 public interface BotCommands {
     List<BotCommand> LIST_OF_COMMAND = List.of(
             new BotCommand("/start", "start bot"),
-            new BotCommand("/help", "bot info")
+            new BotCommand("/stop", "stop bot"),
+            new BotCommand("/help", "bot info"),
+            new BotCommand("/delete","delete my data")
     );
-
-    String HELP_TEXT = """
-            This bot will help to count the number of messages int the chat. The following commands are available to you:\s
-
-            /start - start the bot
-            /help - help menu""";
 }

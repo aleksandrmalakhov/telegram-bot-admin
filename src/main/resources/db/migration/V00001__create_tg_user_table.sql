@@ -7,7 +7,6 @@ CREATE TABLE tg_user
     first_name       VARCHAR(255),
     is_active        BOOLEAN,
     last_name        VARCHAR(255),
-    msg_number       int4,
     user_name        VARCHAR(255),
     PRIMARY KEY (id)
 );

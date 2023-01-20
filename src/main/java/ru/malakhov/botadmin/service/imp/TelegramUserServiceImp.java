@@ -7,6 +7,7 @@ import ru.malakhov.botadmin.service.TelegramUserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TelegramUserServiceImp implements TelegramUserService {
@@ -17,13 +18,23 @@ public class TelegramUserServiceImp implements TelegramUserService {
     }
 
     @Override
-    public TelegramUser findById(Long id) {
-        return repository.findById(id).orElseThrow(IllegalArgumentException::new);
+    public void save(TelegramUser telegramUser) {
+        repository.save(telegramUser);
     }
 
     @Override
-    public TelegramUser findByUsername(String username) {
-        return repository.findByUserName(username).orElseThrow(IllegalArgumentException::new);
+    public void delete(TelegramUser telegramUser) {
+        repository.delete(telegramUser);
+    }
+
+    @Override
+    public Optional<TelegramUser> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public Optional<TelegramUser> findByUsername(String username) {
+        return repository.findByUserName(username);
     }
 
     @Override

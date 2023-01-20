@@ -1,7 +1,6 @@
 package ru.malakhov.botadmin.entity;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -29,7 +28,6 @@ public class TelegramUser {
     String userName;
     String email;
     Boolean isActive;
-    Integer msgNumber;
 
     @OneToMany(cascade = {
             CascadeType.MERGE,
@@ -41,5 +39,48 @@ public class TelegramUser {
 
     public TelegramUser() {
         this.chatSubscribes = new ArrayList<>();
+    }
+
+    public static class Builder {
+        private final TelegramUser telegramUser;
+
+        public Builder() {
+            this.telegramUser = new TelegramUser();
+        }
+
+        public Builder id(Long id) {
+            telegramUser.id = id;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            telegramUser.firstName = firstName;
+            return this;
+
+        }
+
+        public Builder lastName(String lastName) {
+            telegramUser.lastName = lastName;
+            return this;
+        }
+
+        public Builder userName(String userName) {
+            telegramUser.userName = userName;
+            return this;
+        }
+
+        public Builder email(String email) {
+            telegramUser.email = email;
+            return this;
+        }
+
+        public Builder isActive(Boolean isActive) {
+            telegramUser.isActive = isActive;
+            return this;
+        }
+
+        public TelegramUser build() {
+            return telegramUser;
+        }
     }
 }

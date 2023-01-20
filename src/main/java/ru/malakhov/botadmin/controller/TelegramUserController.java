@@ -16,17 +16,13 @@ public class TelegramUserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<TelegramUser> findById(@PathVariable long id) {
         var user = userService.findById(id);
-        return user == null ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(user);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<TelegramUser> findByUserName(@RequestParam(value = "userName") String userName) {
         var user = userService.findByUsername(userName);
-        return user == null ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(user);
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/users")
