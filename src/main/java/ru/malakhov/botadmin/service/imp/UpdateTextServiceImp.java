@@ -3,13 +3,13 @@ package ru.malakhov.botadmin.service.imp;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.malakhov.botadmin.service.CommandService;
-import ru.malakhov.botadmin.service.TextService;
+import ru.malakhov.botadmin.service.UpdateTextService;
 
 @Service
-public class TextServiceImp implements TextService {
+public class UpdateTextServiceImp implements UpdateTextService {
     final CommandService commandService;
 
-    public TextServiceImp(CommandService commandService) {
+    public UpdateTextServiceImp(CommandService commandService) {
         this.commandService = commandService;
     }
 
