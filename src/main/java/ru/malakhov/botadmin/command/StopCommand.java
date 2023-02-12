@@ -23,7 +23,7 @@ public class StopCommand implements Command {
         var appUser = userService.findById(telegramUser.getId());
 
         appUser.ifPresentOrElse((user) -> {
-            user.setIsActive(false);
+            user.setActive(false);
             userService.save(user);
 
             sendMessageService.answerSendMessage(update, user.getFirstName() + ", до новых встреч!");

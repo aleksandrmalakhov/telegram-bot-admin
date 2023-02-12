@@ -1,45 +1,35 @@
 package ru.malakhov.botadmin.entity;
 
-import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
+@EqualsAndHashCode(exclude = "id")
+@NoArgsConstructor
 @Entity(name = "tg_user")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TelegramUser {
     @Id
-    Long id;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private boolean isActive;
     @CreationTimestamp
-    LocalDateTime firstLoginDate;
-    String firstName;
-    String lastName;
-    String userName;
-    String email;
-    Boolean isActive;
-
-    @OneToMany(cascade = {
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.DETACH,
-            CascadeType.REFRESH},
-            mappedBy = "tgUser")
-    List<ChatSubscribe> chatSubscribes;
-
-    public TelegramUser() {
-        this.chatSubscribes = new ArrayList<>();
-    }
+    private LocalDateTime firstLoginDate;
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private BotAccountTelegramUser account;
 
     public static class Builder {
         private final TelegramUser telegramUser;
@@ -56,7 +46,6 @@ public class TelegramUser {
         public Builder firstName(String firstName) {
             telegramUser.firstName = firstName;
             return this;
-
         }
 
         public Builder lastName(String lastName) {
@@ -69,13 +58,8 @@ public class TelegramUser {
             return this;
         }
 
-        public Builder email(String email) {
-            telegramUser.email = email;
-            return this;
-        }
-
-        public Builder isActive(Boolean isActive) {
-            telegramUser.isActive = isActive;
+        public Builder isActive(boolean active) {
+            telegramUser.isActive = active;
             return this;
         }
 

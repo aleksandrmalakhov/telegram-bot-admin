@@ -30,7 +30,7 @@ public class StartCommand implements Command {
 
         persistentAppUser.ifPresentOrElse((user) -> {
             text.set(user.getFirstName() + ", с возвращением!");
-            user.setIsActive(true);
+            user.setActive(true);
             userService.save(user);
         }, () -> {
             text.set(telegramUser.getFirstName() + ", добро пожаловать!");
