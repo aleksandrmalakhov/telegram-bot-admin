@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS channel_subscribe;
-CREATE TABLE channel_subscribe
+create table channel_subscribe
 (
     account_id        int8 not null,
     channel_id        int8 not null,

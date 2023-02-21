@@ -1,21 +1,22 @@
 package ru.malakhov.botadmin.command;
 
-import lombok.experimental.FieldDefaults;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.malakhov.botadmin.service.BotAccountService;
 import ru.malakhov.botadmin.service.SendMessageService;
 import ru.malakhov.botadmin.service.TelegramUserService;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@FieldDefaults(level = PRIVATE)
 public class DeleteMyData implements Command {
-    final TelegramUserService userService;
-    final SendMessageService sendMessageService;
+    private final TelegramUserService userService;
+    private final BotAccountService accountService;
+    private final SendMessageService sendMessageService;
 
-    public DeleteMyData(TelegramUserService userService, SendMessageService sendMessageService) {
+    public DeleteMyData(TelegramUserService userService,
+                        BotAccountService accountService,
+                        SendMessageService sendMessageService) {
         this.userService = userService;
+        this.accountService = accountService;
         this.sendMessageService = sendMessageService;
     }
 
@@ -23,10 +24,15 @@ public class DeleteMyData implements Command {
     public void execute(Update update) {
         AtomicReference<String> text = new AtomicReference<>();
         var telegramUser = update.getMessage().getFrom();
-        var persistentAppUser = userService.findById(telegramUser.getId());
+        var persistentAcc = accountService.findById(telegramUser.getId());
 
-        persistentAppUser.ifPresentOrElse((user) -> {
-            userService.delete(user);
+        persistentAcc.ifPresentOrElse((acc) -> {
+            //TODO обработать исключение
+            var userAccount = userService.findById(acc.getId()).orElseThrow();
+            userAccount.setActive(false);
+            userService.save(userAccount);
+            accountService.delete(acc);
+
             text.set("Ваши данные успешно удалены");
         }, () -> text.set("Ваши данные не найдены"));
 

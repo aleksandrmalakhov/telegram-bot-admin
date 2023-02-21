@@ -1,8 +1,6 @@
 package ru.malakhov.botadmin.bot;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -19,12 +17,11 @@ import static ru.malakhov.botadmin.components.BotCommands.LIST_OF_COMMAND;
 
 @Slf4j
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class TelegramBot extends TelegramLongPollingBot {
-    final UpdateHandler updateHandler;
-    final BotConfiguration botConfiguration;
+    private final UpdateHandler updateHandler;
+    private final BotConfiguration botConfiguration;
     @Getter
-    final SendMessageService sendMessageService;
+    private final SendMessageService sendMessageService;
 
     public TelegramBot(UpdateHandler updateHandler,
                        BotConfiguration botConfiguration,

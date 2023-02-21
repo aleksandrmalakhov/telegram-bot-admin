@@ -8,16 +8,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
 @NoArgsConstructor
 @Entity(name = "tg_user")
+@EqualsAndHashCode(exclude = "id")
 public class TelegramUser {
     @Id
     private Long id;
@@ -25,9 +21,11 @@ public class TelegramUser {
     private String lastName;
     private String userName;
     private boolean isActive;
+
     @CreationTimestamp
     private LocalDateTime firstLoginDate;
-    @OneToOne(cascade=CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private BotAccountTelegramUser account;
 

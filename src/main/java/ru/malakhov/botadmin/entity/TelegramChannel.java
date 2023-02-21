@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
 @Entity(name = "tg_channel")
+@EqualsAndHashCode(exclude = "id")
 public class TelegramChannel {
     @Id
     private Long id;

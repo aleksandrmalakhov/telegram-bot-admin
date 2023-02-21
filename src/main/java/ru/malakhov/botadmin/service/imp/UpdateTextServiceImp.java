@@ -2,15 +2,20 @@ package ru.malakhov.botadmin.service.imp;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.malakhov.botadmin.entity.ChatMessage;
+import ru.malakhov.botadmin.service.ChatMessageService;
 import ru.malakhov.botadmin.service.CommandService;
 import ru.malakhov.botadmin.service.UpdateTextService;
 
 @Service
 public class UpdateTextServiceImp implements UpdateTextService {
-    final CommandService commandService;
+    private final CommandService commandService;
+    private final ChatMessageService chatMessageService;
 
-    public UpdateTextServiceImp(CommandService commandService) {
+    public UpdateTextServiceImp(CommandService commandService,
+                                ChatMessageService chatMessageService) {
         this.commandService = commandService;
+        this.chatMessageService = chatMessageService;
     }
 
     @Override
@@ -25,5 +30,7 @@ public class UpdateTextServiceImp implements UpdateTextService {
         } else {
             commandService.retrieveCommand("noCommand").execute(update);
         }
+
+        chatMessageService.save(new ChatMessage(message));
     }
 }

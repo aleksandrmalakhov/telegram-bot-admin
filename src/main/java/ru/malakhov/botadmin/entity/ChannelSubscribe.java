@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = "id")
 @Entity(name = "channel_subscribe")
-@NoArgsConstructor
 public class ChannelSubscribe {
     @EmbeddedId
     private SubscribeKey id;

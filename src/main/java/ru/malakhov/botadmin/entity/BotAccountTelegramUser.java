@@ -16,21 +16,25 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
 @Entity(name = "acc_tg_user")
+@EqualsAndHashCode(exclude = "id")
 public class BotAccountTelegramUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @CreationTimestamp
     private LocalDateTime dataCreate;
+
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
     private BigDecimal balance;
+
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
+
     @OneToOne(mappedBy = "account")
     private TelegramUser telegramUser;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

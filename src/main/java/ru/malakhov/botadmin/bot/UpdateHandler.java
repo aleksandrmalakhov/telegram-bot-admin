@@ -1,7 +1,5 @@
 package ru.malakhov.botadmin.bot;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -9,10 +7,9 @@ import ru.malakhov.botadmin.service.UpdateTextService;
 
 @Slf4j
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateHandler {
-    TelegramBot telegramBot;
-    final UpdateTextService updateTextService;
+    private TelegramBot telegramBot;
+    private final UpdateTextService updateTextService;
 
     public UpdateHandler(UpdateTextService updateTextService) {
         this.updateTextService = updateTextService;
@@ -44,16 +41,12 @@ public class UpdateHandler {
         var message = update.getMessage();
 
         if (message.hasText()) {
-            processTextMessage(update);
+            updateTextService.processing(update);
         } else if (message.getMigrateToChatId() != null) {
             
         } else {
             setUnsupportedTypeMessageView(update);
         }
-    }
-
-    private void processTextMessage(Update update) {
-        updateTextService.processing(update);
     }
 
     private void setUnsupportedTypeMessageView(Update update) {

@@ -5,9 +5,8 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.malakhov.botadmin.command.*;
-import ru.malakhov.botadmin.service.CommandService;
-import ru.malakhov.botadmin.service.SendMessageService;
-import ru.malakhov.botadmin.service.TelegramUserService;
+import ru.malakhov.botadmin.components.MessageUtils;
+import ru.malakhov.botadmin.service.*;
 
 import static ru.malakhov.botadmin.command.enums.CommandName.*;
 
@@ -17,13 +16,18 @@ public class CommandServiceImp implements CommandService {
     final Command unknownCommand;
     final ImmutableMap<String, Command> commandMap;
 
-    public CommandServiceImp(SendMessageService sendMessageService,
-                             TelegramUserService userService) {
+    public CommandServiceImp(MessageUtils messageUtils,
+                             TelegramUserService userService,
+                             BotAccountService accountService,
+                             ChatMessageService chatMessageService,
+                             SendMessageService sendMessageService) {
         this.commandMap = ImmutableMap.<String, Command>builder()
-                .put(START.getCommandName(), new StartCommand(userService, sendMessageService))
+                .put(MAIN.getCommandName(), new MainCommand(messageUtils, userService, accountService, sendMessageService))
+                .put(START.getCommandName(), new StartCommand(messageUtils, userService, accountService, sendMessageService))
                 .put(STOP.getCommandName(), new StopCommand(userService, sendMessageService))
                 .put(HELP.getCommandName(), new HelpCommand(sendMessageService))
-                .put(DELETE.getCommandName(), new DeleteMyData(userService, sendMessageService))
+                .put(CLEAN.getCommandName(), new CleanCommand(messageUtils, chatMessageService, sendMessageService))
+                .put(DELETE.getCommandName(), new DeleteMyData(userService, accountService, sendMessageService))
                 .put(NO.getCommandName(), new NoCommand(sendMessageService))
                 .put(ERROR.getCommandName(), new ErrorCommand(sendMessageService))
                 .build();
